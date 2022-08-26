@@ -1,88 +1,29 @@
-<template lang="html5">
+<template>
     <div id="nav-bar">
         <input id="menu-toggle" type="checkbox" />
-        <div id="cover">
-            <label class="menu-button-container" for="menu-toggle">
-                <div class="menu-button"></div>
-            </label>
-            <nav id="menu">
-                <router-link class="nav-link" to="/">Home</router-link>
-                <router-link class="nav-link" to="/gallery">Gallery</router-link>
-                <router-link class="nav-link" to="/terminal">Terminal</router-link>
-                <router-link class="nav-link" to="/about">About</router-link>
-            </nav>
-        </div>
+        <label id="menu-button-container" for="menu-toggle">
+            <div id="menu-button"></div>
+        </label>
+        <div id="toggle-background"></div>
+        <nav id="menu">
+            <router-link class="nav-link" to="/">Home</router-link>
+            <router-link class="nav-link" to="/gallery">Gallery</router-link>
+            <router-link class="nav-link" to="/about">About</router-link>
+        </nav>
     </div>
 </template>
 
-<script setup>
-
-</script>
-
-<style scoped lang="scss">
+<style lang="scss">
 @import '@/scss/dark-colors.scss';
 
 .nav-link {
-    text-decoration: none;
     padding: 1em;
-    display: block;
+    margin-top: 2px;
+    display: inline-block;
+    text-decoration: none;
     color: $link-color;
     background-color: $primary-color;
-}
 
-/* ###################################### */
-
-#menu {
-    overflow: hidden;
-}
-
-#menu-toggle {
-    display: none;
-}
-
-.menu-button-container {
-    display: none;
-}
-
-.menu-button,
-.menu-button::before,
-.menu-button::after {
-    display: block;
-    background-color: #fff;
-    // position: absolute;
-    height: 4px;
-    width: 30px;
-    transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
-    border-radius: 2px;
-}
-
-.menu-button::before {
-    content: '';
-    margin-top: -8px;
-}
-
-.menu-button::after {
-    content: '';
-    margin-top: 12px;
-}
-
-#menu-toggle:checked + .menu-button-container .menu-button {
-    background: rgba(255, 255, 255, 0);
-}
-
-#menu-toggle:checked + .menu-button-container .menu-button::before {
-    margin-top: 0px;
-    transform: rotate(405deg);
-}
-
-#menu-toggle:checked + .menu-button-container .menu-button::after {
-    margin-top: -4px;
-    transform: rotate(-405deg);
-}
-
-.nav-link {
-    display: inline-block;
-    margin-top: 2px;
     &::after {
         content: '';
         display: block;
@@ -98,15 +39,15 @@
     }
 }
 
-/* ###################################### */
+#menu-toggle {
+    display: none;
+}
+
+#menu-button-container {
+    display: none;
+}
 
 @media only screen and (max-width: 700px) {
-    #menu-toggle:checked ~ #cover {
-        width: 100vw;
-        height: 100vh;
-        background-color: $primary-color;
-    }
-
     #nav-bar {
         position: absolute;
         width: 100vw;
@@ -115,13 +56,21 @@
         top: 0;
     }
 
-    .menu-button-container {
+    #menu {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        row-gap: 1em;
+    }
+
+    #menu-button-container {
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: $transparent;
         height: 40px;
         width: 40px;
+        z-index: 2;
     }
 
     .nav-link {
@@ -129,6 +78,11 @@
         width: 100vw;
         background-color: $secondary-color;
         margin-top: 0;
+        padding: 0;
+        padding-top: 1.5em;
+        padding-bottom: 1.5em;
+        box-sizing: border-box;
+        z-index: 2;
 
         &::after {
             display: none;
@@ -139,14 +93,60 @@
         }
     }
 
-    #menu-toggle ~ #cover #menu {
+    #menu-button,
+    #menu-button::before,
+    #menu-button::after {
+        display: block;
+        background-color: #fff;
+        height: 4px;
+        width: 30px;
+        transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+        border-radius: 2px;
+        z-index: 2;
+    }
+
+    #menu-button::before {
+        content: '';
+        margin-top: -8px;
+    }
+
+    #menu-button::after {
+        content: '';
+        margin-top: 12px;
+    }
+
+    #menu-toggle:checked + .menu-button-container .menu-button {
+        background: rgba(255, 255, 255, 0);
+        z-index: 1;
+    }
+
+    #menu-toggle:checked + .menu-button-container .menu-button::before {
+        margin-top: 0px;
+        transform: rotate(405deg);
+    }
+
+    #menu-toggle:checked + .menu-button-container .menu-button::after {
+        margin-top: -4px;
+        transform: rotate(-405deg);
+    }
+
+    #menu-toggle ~ #menu {
         height: 0;
         transition: height 2s;
     }
 
-    #menu-toggle:checked ~ #cover #menu {
+    #menu-toggle:checked ~ #menu {
         height: auto;
         transition: height 2s;
+    }
+
+    #menu-toggle:checked ~ #toggle-background {
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        background-color: $primary-color;
     }
 }
 </style>

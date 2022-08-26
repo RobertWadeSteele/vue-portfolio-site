@@ -1,6 +1,5 @@
 <template lang="html5">
     <div id="gallery-section">
-        <NavBar />
         <div class="project">
             <img class="project-image" src="" alt="" />
             <h2 class="project-title"></h2>
